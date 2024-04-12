@@ -1,0 +1,234 @@
+drop database if exists rentalDB;
+create database rentalDB;
+use rentalDB;
+
+create table PropertyManager(
+	id char(5) not null primary key,
+	fname varchar(60) not null,
+	lname varchar(60) not null,
+	phone char(10)
+);
+
+create table Property(
+	id int not null primary key,
+	accomodation_type varchar(10) not null,
+	cost decimal(8,2) not null,
+	accessibility boolean,
+	num_beds int not null,
+	num_baths int not null,
+	parking boolean not null,
+	laundry varchar(7) not null,
+	listing_date date not null,
+	street varchar(255) not null,
+	city varchar(255) not null,
+	province char(2) not null,
+	pc char(7) not null,
+	managerId char(5),
+	managerStart date,
+	foreign key (managerId) references PropertyManager(id) on delete set null
+);
+
+create table RentalGroup(
+	id int	not null primary key,
+	accessibility boolean,
+	accomodation_type varchar(60),
+	num_beds int,
+	num_baths int,
+	parking boolean,
+	laundry varchar(7),
+	max_cost decimal(8,2),
+	property_leased int,
+	sign_date date,
+	end_date date,
+	payment decimal(8,2),
+	foreign key (property_leased) references Property (id) on delete set null 
+
+);
+
+create table Student(
+	id char(5) not null primary key,
+	fname varchar(60) not null,
+	lname varchar(60) not null,
+	phone char(10),
+	studentId int not null,
+	yog int not null,
+	program varchar(60),
+	groupId int not null,
+	foreign key (groupId) references RentalGroup(id) on delete cascade
+);
+
+create table PropertyOwner(
+	id char(5) not null primary key,
+	fname varchar(60) not null,
+	lname varchar(60) not null,
+	phone char(10)
+);
+
+
+create table House(
+	rpid int not null primary key,
+	attachment_type varchar(60),
+	fenced_yard boolean not null,
+	foreign key (rpid) references Property (id) on delete cascade
+);
+
+create table Apartment(
+	rpid int not null primary key,
+	elevator boolean not null,
+	apartment_num int not null,
+	floor int not null,
+	foreign key (rpid) references Property(id) on delete cascade
+);
+
+create table Room(
+	rpid int not null primary key,
+	kitchen_privilege boolean not null,
+	num_people int not null,
+	foreign key (rpid) references Property(id) on delete cascade
+);
+
+create table Furnishing(
+	roomId int not null,
+	furnishing varchar(60) not null,
+	foreign key (roomId) references Room (rpid) on delete cascade
+);
+
+create table OwnsProperty(
+	ownerId char(5) not null,
+	propertyId int not null,
+	primary key (ownerId, propertyId),
+	foreign key (ownerId) references PropertyOwner (id) on delete cascade,
+	foreign key (propertyId) references Property (id) on delete cascade
+);
+
+INSERT INTO PropertyManager (id, fname, lname, phone) VALUES
+('PM123', 'Alice', 'Johnson', '3456789012'),
+('PM456', 'Bob', 'Wilson', '4567890123'),
+('PM789', 'Charlie', 'Davis', '5678901234'),
+('PM012', 'Diana', 'Lee', '6789012345'),
+('PM345', 'Evan', 'Smith', '7890123456'),
+('PM678', 'Fiona', 'Garcia', '8901234567'),
+('PM901', 'George', 'Hernandez', '9012345678'),
+('PM234', 'Hannah', 'Martinez', '0123456789');
+
+INSERT INTO Property (id, street, city, province, pc, num_beds, num_baths, parking, laundry, listing_date, accessibility, cost, managerId, managerStart, accomodation_type) VALUES
+(1, '123 Main St', 'Kingston', 'ON', 'A1A 2B2', 3, 2, true, 'ensuite', '2023-01-01', true, 2000, 'PM123', '2023-01-01', 'House'),
+(2, '456 Oak St', 'Pickering', 'ON', 'B2B 3C3', 4, 2, true, 'shared', '2023-01-15', false, 2500, 'PM456', '2023-01-15', 'House'),
+(3, '789 Pine St', 'Oshawa', 'ON', 'C3C 4D4', 2, 1, false, 'ensuite', '2023-02-01', true, 1500, 'PM789', '2023-02-01', 'House'),
+(4, '101 Maple Ave', 'Belleville', 'ON', 'D4D 5E5', 3, 3, true, 'shared', '2023-02-20', false, 2200, 'PM012', '2023-02-20', 'House'),
+(5, '202 Birch Rd', 'Kingston', 'ON', 'E5E 6F6', 4, 3, true, 'ensuite', '2023-03-01', true, 2700, 'PM345', '2023-03-01', 'House'),
+(6, '303 Cedar Ln', 'Pickering', 'ON', 'F6F 7G7', 3, 2, false, 'shared', '2023-03-15', false, 1900, 'PM678', '2023-03-15', 'House'),
+(7, '404 Elm St', 'Oshawa', 'ON', 'G7G 8H8', 2, 2, true, 'ensuite', '2023-04-01', true, 1600, 'PM901', '2023-04-01', 'House'),
+(8, '505 Fir Ct', 'Belleville', 'ON', 'H8H 9I9', 3, 1, false, 'shared', '2023-04-15', false, 1800, 'PM234', '2023-04-15', 'House'),
+
+(9, '101 High St', 'Kingston', 'ON', 'A1B 2C2', 2, 1, false, 'shared', '2023-01-01', true, 1200, 'PM123', '2023-01-01', 'Apartment'),
+(10, '202 Tower Rd', 'Pickering', 'ON', 'B3C 3D3', 1, 1, true, 'ensuite', '2023-01-20', false, 1000, 'PM456', '2023-01-20', 'Apartment'),
+(11, '303 Loft Ln', 'Oshawa', 'ON', 'C4D 4E4', 3, 2, true, 'shared', '2023-02-05', true, 1800, 'PM789', '2023-02-05', 'Apartment'),
+(12, '404 Skyline Blvd', 'Belleville', 'ON', 'D5E 5F5', 1, 1, false, 'ensuite', '2023-02-25', false, 1100, 'PM012', '2023-02-25', 'Apartment'),
+(13, '505 Viewpoint Ave', 'Kingston', 'ON', 'E6F 6G6', 2, 2, true, 'shared', '2023-03-10', true, 1600, 'PM345', '2023-03-10', 'Apartment'),
+(14, '606 Horizon St', 'Pickering', 'ON', 'F7G 7H7', 3, 1, false, 'ensuite', '2023-03-30', false, 1400, 'PM678', '2023-03-30', 'Apartment'),
+(15, '707 Peak Pl', 'Oshawa', 'ON', 'G8H 8I8', 1, 1, true, 'shared', '2023-04-15', true, 1050, 'PM901', '2023-04-15', 'Apartment'),
+(16, '808 Vista Rd', 'Belleville', 'ON', 'H9I 9J9', 2, 1, false, 'ensuite', '2023-05-01', false, 1150, 'PM234', '2023-05-01', 'Apartment'),
+
+(17, '109 College St', 'Kingston', 'ON', 'A2B 3C3', 1, 1, false, 'shared', '2023-01-02', false, 500.00, 'PM123', '2023-01-02', 'Room'),
+(18, '210 University Ave', 'Pickering', 'ON', 'B3D 4E4', 1, 1, true, 'shared', '2023-01-18', true, 550.00, 'PM456', '2023-01-18', 'Room'),
+(19, '311 College Park', 'Oshawa', 'ON', 'C4E 5F5', 1, 1, false, 'ensuite', '2023-02-08', false, 600.00, 'PM789', '2023-02-08', 'Room'),
+(20, '412 Student Ln', 'Belleville', 'ON', 'D5F 6G6', 1, 1, true, 'shared', '2023-02-22', true, 650.00, 'PM012', '2023-02-22', 'Room'),
+(21, '513 Campus Close', 'Kingston', 'ON', 'E6G 7H7', 1, 1, false, 'ensuite', '2023-03-09', false, 700.00, 'PM345', '2023-03-09', 'Room'),
+(22, '614 Dorm Dr', 'Pickering', 'ON', 'F7H 8I8', 1, 1, true, 'shared', '2023-03-23', true, 750.00, 'PM678', '2023-03-23', 'Room'),
+(23, '715 Academy Ave', 'Oshawa', 'ON', 'G8I 9J9', 1, 1, false, 'ensuite', '2023-04-07', false, 800.00, 'PM901', '2023-04-07', 'Room'),
+(24, '816 Scholar St', 'Belleville', 'ON', 'H9J 9K9', 1, 1, true, 'shared', '2023-04-21', true, 850.00, 'PM234', '2023-04-21', 'Room');
+
+INSERT INTO RentalGroup (id, accessibility, accomodation_type, num_beds, num_baths, parking, laundry, max_cost, property_leased, sign_date, end_date, payment) VALUES
+(1001, true, 'Apartment', 2, 1, true, 'ensuite', 1500, 9, '2023-01-15', '2024-01-15', 1200.00),
+(1002, false, 'House', 3, 2, true, 'shared', 2000, 1, '2023-01-01', '2024-01-01', 2000.00),
+(1003, true, 'Room', 1, 1, false, 'shared', 500, 17, '2023-01-02', '2024-01-02', 500.00),
+(1004, false, 'Apartment', 1, 1, false, 'ensuite', 1200, 10, '2023-02-15', '2024-02-15', 1000.00),
+(1005, true, 'House', 4, 3, true, 'ensuite', 2500, 5, '2023-05-01', '2024-05-01', 2700.00),
+(1006, false, 'Room', 1, 1, true, 'shared', 700, 18, '2023-02-02', '2024-02-02', 550.00),
+(1007, true, 'Apartment', 3, 2, true, 'shared', 1800, 11, '2023-03-15', '2024-03-15', 1800.00),
+(1008, false, 'House', 2, 2, false, 'ensuite', 1600, 3, '2023-03-01', '2024-03-01', 1500.00);
+
+INSERT INTO Student (id, fname, lname, phone, studentId, yog, program, groupId) VALUES
+('AB123', 'John', 'Doe', '1234567890', 20282229, 2024, 'Computer Science', 1001),
+('CD456', 'Jane', 'Smith', '2345678901', 20282228, 2025, 'Mechanical Engineering', 1001),
+('EF789', 'Mike', 'Jones', '3456789012', 20282227, 2023, 'Electrical Engineering', 1002),
+('GH012', 'Emily', 'Clark', '4567890123', 20282226, 2026, 'Psychology', 1002),
+('IJ345', 'Alex', 'Brown', '5678901234', 20282225, 2024, 'Business', 1003),
+('KL678', 'Sarah', 'Wilson', '6789012345', 20282224, 2025, 'Biology', 1003),
+('MN901', 'Chris', 'Martinez', '7890123456', 20282223, 2023, 'Chemistry', 1004),
+('OP234', 'Pat', 'Kim', '8901234567', 20282222, 2026, 'Art History', 1004);
+
+INSERT INTO PropertyOwner (id, fname, lname, phone) VALUES
+('PO123', 'Carol', 'Taylor', '5678901234'),
+('PO456', 'Dave', 'Brown', '6789012345'),
+('PO789', 'Ella', 'Wilson', '7890123456'),
+('PO012', 'Frank', 'Jones', '8901234567'),
+('PO345', 'Grace', 'Martinez', '9012345678'),
+('PO678', 'Harry', 'Clark', '0123456789'),
+('PO901', 'Irene', 'Davis', '1234567890'),
+('PO234', 'Jack', 'Lee', '2345678901');
+
+
+INSERT INTO House (rpid, fenced_yard, attachment_type) VALUES
+(1, true, 'detached'),
+(2, true, 'semi'),
+(3, false, 'detached'),
+(4, true, 'semi'),
+(5, true, 'detached'),
+(6, false, 'semi'),
+(7, true, 'detached'),
+(8, false, 'semi');
+
+
+INSERT INTO Apartment (rpid, floor, elevator, apartment_num) VALUES
+(9, 5, true, 20),
+(10, 3, false, 21),
+(11, 2, true, 22),
+(12, 2, false, 23),
+(13, 8, true, 24),
+(14, 4, true, 25),
+(15, 6, false, 26),
+(16, 7, true, 27);
+
+
+
+INSERT INTO Room (rpid, num_people, kitchen_privilege) VALUES
+(17, 2, true),
+(18, 1, false),
+(19, 3, true),
+(20, 4, false),
+(21, 2, true),
+(22, 1, false),
+(23, 3, true),
+(24, 4, false);
+
+
+
+
+INSERT INTO Furnishing (roomId, furnishing) VALUES
+(17, 'bed'), (17, 'desk'), (17, 'chair'), (17, 'lamp'),
+(18, 'bed'), (18, 'desk'),
+(19, 'bed'), (19, 'chair'), (19, 'lamp'),
+(20, 'bed'), (20, 'desk'), (20, 'bookshelf'),
+(21, 'bed'), (21, 'desk'), (21, 'wardrobe'),
+(22, 'bed'), (22, 'chair'),
+(23, 'bed'), (23, 'desk'), (23, 'lamp'), (23, 'chair'),
+(24, 'bed'), (24, 'desk'), (24, 'bookshelf'), (24, 'wardrobe');
+
+INSERT INTO OwnsProperty (ownerId, propertyId) VALUES
+('PO123', 1), ('PO123', 2),
+('PO456', 3), ('PO456', 4),
+('PO789', 5), ('PO789', 6),
+('PO012', 7), ('PO012', 8),
+
+('PO345', 9), ('PO345', 10),
+('PO678', 11), ('PO678', 12),
+('PO901', 13), ('PO901', 14),
+('PO234', 15), ('PO234', 16),
+
+('PO123', 17), ('PO123', 18),
+('PO456', 19), ('PO456', 20),
+('PO789', 21), ('PO789', 22),
+('PO012', 23), ('PO012', 24);
+
