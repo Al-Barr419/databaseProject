@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to HourGlass Rental Property Listings</title>
+    <!-- <link rel="stylesheet" href="queens-theme.css" /> -->
+    <!-- <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        justify-content: space-between;
+      }
+      header,
+      footer {
+        background-color: #00205b; /* Queen's Blue */
+        color: #fff;
+        padding: 1em 0;
+        text-align: center;
+      }
+      .hero {
+        background-image: url("images/House_searching.png");
+        background-size: cover;
+        background-position: center;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero h1 {
+        font-size: 3em;
+        color: black; /* Queen's Gold */
+      }
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      nav a {
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      footer {
+        font-size: 0.8em;
+      }
+    </style> -->
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f7f7;
+      }
+      .header {
+        background: #4484ce;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Spread the elements apart */
+      }
+
+      .header .title {
+        margin: 0;
+        padding: 0;
+        font-size: 2em; /* Larger font size for the title */
+      }
+      .header .title a {
+        text-decoration: none; /* Removes the underline */
+        color: inherit; /* Keeps the color the same as the parent, if you've set one */
+      }
+
+      /* Or, if the <a> tag is directly inside the .header */
+      .header a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .header {
+        font-size: 1.2em; /* Slightly smaller font size for the tagline */
+        font-style: italic; /* Italicize the tagline for emphasis */
+        margin: 5px 0; /* Space out the tagline from the title */
+        color: white; /* Lighter color for the tagline */
+      }
+
+      .nav {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        background-color: #4484ce;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+      .nav li {
+        float: left;
+      }
+      .nav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      .nav li a:hover {
+        background-color: #8c8787; /* even lighter for hover effect */
+      }
+      .main-content {
+        padding: 20px;
+        background: #fff; /* white for the main content background */
+        margin-top: 10px;
+      }
+      .footer {
+        background-color: #4484ce; /* same as the header */
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        padding: 50px; /* Adjust padding as needed */
+        background: white; /* Light background color */
+      }
+
+      /* Container for the text to control its width and spacing */
+      .hero-text {
+        max-width: 50%;
+        margin-right: 20px; /* Adjust the space between text and image */
+      }
+
+      /* Styles for the main heading */
+      .hero-text h1 {
+        font-size: 4em; /* Large font size for the main heading */
+        color: #00205b; /* Queen's University blue for contrast */
+        margin-bottom: 0.5em; /* Space below the heading */
+      }
+
+      /* Styles for the subtitle or additional text */
+      .hero-text p {
+        font-size: 1.5em;
+        color: #444; /* Darker grey color for readability */
+        margin-top: 0; /* Reduce space above the paragraph if needed */
+      }
+
+      /* Styles for the image */
+      .hero img {
+        max-width: 50%; /* Maximum width of the image */
+        height: auto; /* Keep image aspect ratio */
+      }
+
+      /* Ensure that the header and footer do not have margins that push the .hero down */
+      .header,
+      .footer {
+        margin: 0;
+      }
+      .hero-text {
+        text-align: left;
+        color: black;
+      }
+      .hero-text h1 {
+        font-size: 3em;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div>
+        <a href="rental.html"><h1 class="title">HourGlass Rentals</h1></a>
+      </div>
+      <ul class="nav">
+        <li><a href="propertyInfo.php">Properties</a></li>
+        <li><a href="listRentalGroups.php">View Rental Groups</a></li>
+        <li><a href="avgRent.php">Property Average Rents</a></li>
+      </ul>
+    </header>
+
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Find Your Perfect Home</h1>
+        <p>Where Comfort meets Affordability</p>
+      </div>
+      <img src="images/best-place.png" alt="Find Your Perfect Home" />
+    </div>
+
+    <footer class="footer">
+      &copy; 2024 HourGlass Rentals | Queen's University
+    </footer>
+  </body>
+</html>
